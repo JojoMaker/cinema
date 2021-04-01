@@ -77,20 +77,12 @@ app.layout = html.Div([
     html.Br(),
 
     html.Label('Year Slider'),
-    slider_year,
-
-
-     dcc.Graph(id='bar_graph')
+    slider_year
 
 ])
 
 ####################Callbacks#######################
 
-@app.callback(
-    [
-         Output("bar_graph", "figure")
-        
-    ],
     [
         Input("year_slider", "value"),
         Input("country_drop", "value"),
@@ -100,22 +92,7 @@ app.layout = html.Div([
     ]
 )
 
-def plots(year, countries):
-############################################First Bar Plot##########################################################
-    data_bar = []
-    for country in countries:
-        df_bar = df.loc[(df['country'] == country)]
 
-        x_bar = df_bar['year']
-        y_bar = df_bar['gross']
-
-        data_bar.append(dict(type='bar', x=x_bar, y=y_bar, name=country))
-
-    layout_bar = dict(title=dict(text='Emissions from 1990 until 2015'),
-                      yaxis=dict(title='Emissions'),
-                      paper_bgcolor='#f9f9f9'
-                      )
-     return go.Figure(data=data_bar, layout=layout_bar)
 
            
 
