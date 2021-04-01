@@ -11,11 +11,12 @@ df = pd.read_csv('movies.csv')
 
 # Building our Graphs (nothing new here)
 
+df_2 = df.loc[df['year']==2000]
 data_choropleth = dict(type='choropleth',
-                       locations=df['country'],  #There are three ways to 'merge' your data with the data pre embedded in the map
+                       locations=df_2['country'],  #There are three ways to 'merge' your data with the data pre embedded in the map
                        locationmode='country names',
-                       z=df['gross'],
-                       text=df['country'],
+                       z=df_2['gross'],
+                       text=df_2['country'],
                        colorscale='inferno',
                        colorbar=dict(title='Gross')
                       )
