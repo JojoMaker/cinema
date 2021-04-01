@@ -88,7 +88,7 @@ app.layout = html.Div([
 
 @app.callback(
     [
-         utput("choropleth", "figure")
+         Output("choropleth", "figure")
         
     ],
     [
@@ -100,27 +100,23 @@ app.layout = html.Div([
     ]
 )
 
-def plots(year, countries,genre):
+def plots(year, countries):
 ############################################First Bar Plot##########################################################
-    choro = px.choropleth(df, locations="country", color='score', 
-                    locationmode='country names',
-                    animation = 'year',
-                    range_color=[0,10],
-                    color_continuous_scale=px.colors.sequential.speed
-                )
+    data_bar = []
+    for country in countries:
+        df_bar = df.loc[(df['country'] == country)]
 
-    choro.update_layout(margin={"r":50,"t":100,"l":50,"b":50},coloraxis_colorbar=dict(
-                    title="Reproduction Rate",
-                    thicknessmode="pixels",
-                    lenmode="pixels",
-                    yanchor="top",y=1,
-                    ticks="outside",
-                    tickvals=[0,2.5,5,7.5,10],
-                    dtick=4
-                    )
-                    )
+        x_bar = df_bar['year']
+        y_bar = df_bar['gross']
 
-    return go.Figure(data=choro)
+        data_bar.append(dict(type='bar', x=x_bar, y=y_bar, name=country))
+
+    layout_bar = dict(title=dict(text='Emissions from 1990 until 2015'),
+                      yaxis=dict(title='Emissions'),
+                      paper_bgcolor='#f9f9f9'
+                      )
+     return go.Figure(data=data_bar, layout=layout_bar)
+
            
 
 
