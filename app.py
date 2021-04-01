@@ -1,100 +1,67 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output, State
-import numpy as np
+import plotly.graph_objects as go
 import pandas as pd
-import plotly.graph_objs as go
+import numpy as np
 
-
-################################
-
-
+# Dataset 'Processing'
 
 df = pd.read_csv('movies.csv')
 
-###################################
+# Building our Graphs (nothing new here)
 
-company_options = [dict(label=company, value=company) for company in df['company'].unique()]
+data_choropleth = dict(type='choropleth',
+                       locations=df['country'],  #There are three ways to 'merge' your data with the data pre embedded in the map
+                       locationmode='country names',
+                       z=df['gross'],
+                       text=df['country'],
+                       colorscale='inferno',
+                       colorbar=dict(title='Gross')
+                      )
 
-country_options = [dict(label=country, value=country) for country in df['country'].unique()]
+layout_choropleth = dict(geo=dict(scope='world',  #default
+                                  projection=dict(type='orthographic'
+                                                 ),
+                                  #showland=True,   # default = True
+                                  landcolor='black',
+                                  lakecolor='white',
+                                  showocean=True,   # default = False
+                                  oceancolor='azure'
+                                 ),
+                         
+                         title=dict(text='World Choropleth Map',
+                                    x=.5 # Title relative position according to the xaxis, range (0,1)
+                                   )
+                        )
 
-genre_options = [dict(label=genre, value=genre) for genre in df['genre'].unique()]
+fig = go.Figure(data=data_choropleth, layout=layout_choropleth)
 
-dropdown_country = dcc.Dropdown(
-        id='country_drop',
-        options=country_options,
-        value=['USA']
-        
-    )
 
-dropdown_company = dcc.Dropdown(
-        id='company_drop',
-        options=company_options,
-        value='Paramount Pictures'
-    )
 
-dropdown_genre = dcc.Dropdown(
-        id='genre_drop',
-        options=genre_options,
-        value='Comedy'    
-    )
-    
-    
-slider_year = dcc.Slider(
-        id='year_slider',
-        min=df['year'].min(),
-        max=df['year'].max(),
-        marks={str(i): '{}'.format(str(i)) for i in
-               [1990, 1995, 2000, 2005, 2010, 2015]},
-        value=df['year'].min(),
-        step=1
-    )
-    
-######################APP############################
+# The App itself
 
 app = dash.Dash(__name__)
 
 server = app.server
 
-app.layout = html.Div([
 
-    html.H1('How is the movie industry doing?'),
 
-    html.Label('Country Choice'),
-    dropdown_country,
 
-    html.Br(),
+app.layout = html.Div(children=[
+    html.H1(children='Movies'),
 
-    html.Label('Genre Choice'),
-    dropdown_genre,
+    html.Div(children='''
+        Example of html Container
+    '''),
 
-    html.Br(),
-
-    html.Label('Company Choice'),
-    dropdown_company,
-
-    html.Br(),
-
-    html.Label('Year Slider'),
-    slider_year
-
+    dcc.Graph(
+        id='example-graph',
+        figure=fig
+    )
 ])
 
-####################Callbacks#######################
-@app.callback(
-    [
-        Input("year_slider", "value"),
-        Input("country_drop", "value"),
-        Input("genre_drop", "value"),
-        Input("company_drop","value")
-  
-    ]
-)
 
-
-
-           
 
 
 if __name__ == '__main__':
