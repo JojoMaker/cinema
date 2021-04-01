@@ -15,7 +15,7 @@ df_2 = df.loc[df['year']==2000]
 data_choropleth = dict(type='choropleth',
                        locations=df_2['country'],  #There are three ways to 'merge' your data with the data pre embedded in the map
                        locationmode='country names',
-                       z=df_2['gross'],
+                       z=df_2['score'],
                        text=df_2['country'],
                        colorscale='inferno',
                        colorbar=dict(title='Gross')
