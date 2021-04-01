@@ -80,7 +80,7 @@ app.layout = html.Div([
     slider_year,
 
 
-     dcc.Graph(id='choropleth')
+     dcc.Graph(id='bar_graph')
 
 ])
 
@@ -88,7 +88,7 @@ app.layout = html.Div([
 
 @app.callback(
     [
-         Output("choropleth", "figure")
+         Output("bar_graph", "figure")
         
     ],
     [
