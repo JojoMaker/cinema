@@ -82,7 +82,7 @@ app.layout = html.Div([
 ])
 
 ####################Callbacks#######################
-
+@app.callback(
     [
         Input("year_slider", "value"),
         Input("country_drop", "value"),
