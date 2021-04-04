@@ -17,9 +17,9 @@ df = pd.read_csv('movies.csv', encoding = "ISO-8859-1")
 df.columns = df.columns.str.capitalize()
     
 ###################### APP ############################
-#external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.title = "Movie Industry"
 
