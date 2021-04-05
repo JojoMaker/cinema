@@ -21,6 +21,8 @@ df.columns = df.columns.str.capitalize()
 
 app = dash.Dash(__name__) #external_stylesheets = external_stylesheets)
 
+server = app.server
+
 app.title = "Movie Industry"
 
 app.layout = html.Div([
